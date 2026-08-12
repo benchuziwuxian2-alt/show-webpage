@@ -722,44 +722,513 @@ blockquote {
 
 </style>
 <style>
-body {
-    padding-top: 25px;
+/* ================================================================
+   LTL's Desk Satellite — Enhanced Dark Theme + Color System
+   ================================================================ */
+:root {
+  --bg: #0a0e17;
+  --bg-card: #131a27;
+  --border: #1e2d45;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+
+  /* Color palette for different text elements */
+  --c-blue:    #58a6ff;   /* links, h2 accents */
+  --c-cyan:    #39d2c0;   /* inline code, special terms */
+  --c-purple:  #a371f7;   /* h3, highlight text */
+  --c-gold:    #e2b93b;   /* strong/bold emphasis */
+  --c-green:   #3fb950;   /* success, positive notes */
+  --c-pink:    #f778ba;   /* warnings, attention */
+  --c-orange:  #d2991d;   /* secondary emphasis */
+  --c-red:     #f85149;   /* critical, errors */
+
+  --nav-height: 56px;
+  --transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+* { box-sizing:border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 20px);
+}
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 30% 15%, rgba(88,166,255,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 55%, rgba(163,113,247,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 45% 90%, rgba(57,210,192,0.03) 0%, transparent 50%);
+  color: var(--text);
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:#2a3550; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--c-blue); }
+
+/* ── Selection ── */
+::selection { background:rgba(88,166,255,0.3); color:#fff; }
+
+/* ── Scroll Progress Bar ── */
+#scroll-progress {
+  position:fixed; top:0; left:0; height:3px;
+  background:linear-gradient(90deg, var(--c-blue), var(--c-purple), var(--c-cyan));
+  z-index:10001; width:0%; transition:width 0.1s linear;
+}
+
+/* ── Navigation ── */
+#top-nav {
+  position:fixed; top:0; left:0; right:0; height:var(--nav-height);
+  background:rgba(10,14,23,0.85); backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border-bottom:1px solid var(--border); z-index:10000;
+  display:flex; align-items:center; justify-content:center;
+  gap:4px; padding:0 20px;
+  transition:border-color 0.3s, background 0.3s;
+}
+#top-nav.scrolled { border-bottom-color:var(--c-blue); background:rgba(10,14,23,0.95); }
+#top-nav a {
+  color:var(--muted); text-decoration:none; font-size:0.82rem;
+  padding:6px 14px; border-radius:6px; transition:all 0.25s;
+  white-space:nowrap; font-weight:500;
+}
+#top-nav a:hover { color:var(--c-cyan); background:rgba(57,210,192,0.08); }
+#top-nav a.active { color:#fff; background:rgba(88,166,255,0.18); }
+
+@media(max-width:768px){
+  #top-nav { flex-wrap:wrap; height:auto; padding:8px 12px; gap:2px; }
+  #top-nav a { font-size:0.72rem; padding:4px 8px; }
+}
+
+/* ── Content Wrapper ── */
+.content-wrapper {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 30px) 30px 70px;
+}
+
+/* ── Fade-Up Animation ── */
+.fade-up {
+  opacity:0; transform:translateY(30px);
+  transition:opacity var(--transition), transform var(--transition);
+}
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* ══════════════════════════════════════════════════════════════
+   COLOR SYSTEM — Different colors for different text elements
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── h1: Blue→Purple→Cyan gradient ── */
+h1 {
+  font-size:2.6rem; padding-bottom:0.3em; font-weight:800;
+  background:linear-gradient(135deg, var(--c-blue) 0%, var(--c-purple) 60%, var(--c-cyan) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  border-bottom:none !important;
+  letter-spacing:-0.5px;
+  position:relative;
+}
+h1::after {
+  content:''; display:block; width:80px; height:3px;
+  background:linear-gradient(90deg, var(--c-blue), var(--c-purple));
+  margin-top:12px; border-radius:2px;
+}
+
+/* ── h2: Light blue heading ── */
+h2 {
+  font-size:1.85rem; padding-bottom:0.35em; margin-top:2.5em;
+  color:var(--c-blue);
+  border-bottom:none !important; font-weight:700;
+  position:relative;
+}
+h2::after {
+  content:''; display:block; width:50px; height:2px;
+  background:var(--c-blue); margin-top:8px; border-radius:2px; opacity:0.5;
+}
+
+/* ── h3: Soft purple heading ── */
+h3 {
+  font-size:1.5rem; margin-top:2em;
+  color:var(--c-purple);
+  border-bottom:none !important; font-weight:700;
+  position:relative;
+}
+h3::after {
+  content:''; display:block; width:40px; height:2px;
+  background:var(--c-purple); margin-top:6px; border-radius:2px; opacity:0.4;
+}
+
+/* ── h5: Cyan accent ── */
+h5 {
+  font-size:1.1rem; margin-top:1.5em;
+  color:var(--c-cyan); font-weight:600;
+}
+
+/* ── h6: Muted gold ── */
+h6 {
+  font-size:0.95rem;
+  color:var(--c-gold); font-weight:500;
+}
+
+/* ── Paragraphs: muted gray-blue ── */
+p { color:var(--muted); margin:1em 0; }
+
+/* ── Strong / Bold: Gold highlight ── */
+strong, b {
+  color:var(--c-gold);
+  font-weight:700;
+}
+
+/* ── Emphasis / Italic: Pinkish ── */
+em, i { color:var(--c-pink); font-style:italic; }
+
+/* ── List items ── */
+li { color:var(--muted); margin-bottom:6px; }
+ul { padding-left:1.5em; }
+li strong, li b { color:var(--c-gold); }
+li em, li i { color:var(--c-pink); }
+
+/* ── Links: Cyan-blue with underline animation ── */
+a { color:var(--c-cyan); text-decoration:none; transition:all 0.2s; position:relative; }
+a:hover { color:#5ff0db; text-decoration:none; }
+.content-wrapper a:not(#top-nav a)::after {
+  content:''; position:absolute; bottom:-1px; left:0; width:0; height:1px;
+  background:var(--c-cyan); transition:width 0.3s;
+}
+.content-wrapper a:not(#top-nav a):hover::after { width:100%; }
+
+/* ── Inline Code: Orange-amber ── */
+:not(pre):not(.hljs) > code {
+  background:rgba(210,153,29,0.08) !important;
+  color:var(--c-orange) !important;
+  padding:2px 8px; border-radius:4px; font-size:0.88em;
+  border:1px solid rgba(210,153,29,0.15);
+}
+
+/* ── Code Blocks: Cool dark gradient ── */
+pre {
+  background:linear-gradient(135deg, #0d1117, #131a27) !important;
+  border:1px solid var(--border) !important;
+  border-radius:10px !important;
+  position:relative;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+pre code { color:#c9d1d9 !important; font-size:0.85rem !important; }
+
+/* ── Copy Button ── */
+.copy-btn {
+  position:absolute; top:10px; right:12px;
+  background:rgba(255,255,255,0.05); border:1px solid var(--border);
+  color:var(--muted); padding:4px 10px; border-radius:5px;
+  font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+  opacity:0; font-family:inherit;
+}
+pre:hover .copy-btn { opacity:1; }
+.copy-btn:hover { background:rgba(88,166,255,0.12); color:var(--c-blue); border-color:var(--c-blue); }
+.copy-btn.copied { color:var(--c-green); border-color:var(--c-green); }
+
+/* ── Tables ── */
+table {
+  width:100%; border-collapse:collapse; margin:1.5em 0;
+  border-radius:8px; overflow:hidden;
+}
+table > thead > tr > th {
+  background:rgba(88,166,255,0.1); color:var(--c-blue) !important;
+  padding:12px 16px; font-weight:600; border:none !important; text-align:left;
+}
+table > tbody > tr > td {
+  padding:10px 16px; border-top:1px solid var(--border) !important;
+  background:var(--bg-card); color:var(--muted);
+  transition:background 0.2s;
+}
+table > tbody > tr:hover > td { background:#182032; }
+
+/* ── Blockquote / Callout: Green-tinted ── */
+blockquote, .callout {
+  background:rgba(63,185,80,0.04) !important;
+  border-left:4px solid var(--c-green) !important;
+  border-radius:0 8px 8px 0; padding:18px 22px; margin:1.5em 0;
+  color:var(--muted);
+  transition:transform 0.25s, box-shadow 0.25s;
+}
+blockquote:hover, .callout:hover {
+  transform:translateX(4px);
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* ── Horizontal Rules ── */
+hr {
+  border:none; height:1px;
+  background:linear-gradient(90deg, transparent, var(--border), transparent);
+  margin:2.5em 0;
+}
+
+/* ── Images ── */
+.content-wrapper img {
+  max-width:100%; border-radius:10px; cursor:zoom-in;
+  transition:transform 0.3s cubic-bezier(0.16,1,0.3,1),
+             box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
+  border:1px solid var(--border);
+}
+.content-wrapper img:hover {
+  transform:scale(1.02);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--c-blue);
+}
+
+/* ── Lightbox ── */
+#lightbox {
+  display:none; position:fixed; inset:0; z-index:99999;
+  background:rgba(0,0,0,0.9); backdrop-filter:blur(8px);
+  justify-content:center; align-items:center; cursor:zoom-out;
+}
+#lightbox.active { display:flex; }
+#lightbox img { max-width:90vw; max-height:90vh; border-radius:12px; border:1px solid var(--border); }
+
+/* ── Back to Top ── */
+#back-to-top {
+  position:fixed; bottom:28px; right:28px; z-index:9998;
+  width:44px; height:44px; border-radius:50%;
+  background:var(--bg-card); border:1px solid var(--border);
+  color:var(--c-blue); font-size:1.3rem; cursor:pointer;
+  opacity:0; transform:translateY(12px); pointer-events:none;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  display:flex; align-items:center; justify-content:center;
+}
+#back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+#back-to-top:hover { background:rgba(88,166,255,0.12); border-color:var(--c-blue); }
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  body { font-size:15px; }
+  h1 { font-size:1.8rem; }
+  h2 { font-size:1.4rem; }
+  h3 { font-size:1.2rem; }
+  .content-wrapper { padding:calc(var(--nav-height) + 20px) 14px 40px; }
+  #back-to-top { bottom:16px; right:16px; width:38px; height:38px; }
+}
+
+/* ── Override conflicting original styles for dark theme ── */
+body { color:var(--text); }
+.hljs { background:transparent !important; }
 </style>
 </head>
 <body>
+    <div id="scroll-progress"></div>
+    <nav id="top-nav"></nav>
     <div class="content-wrapper">
         <h1 id="ltl's-desk-satellite" tabindex="-1"><strong><strong><strong>LTL's desk satellite</strong></strong></strong></h1>
 <p>————————————————————————————————————————————————————————————————————</p>
-<h2 id="" tabindex="-1"></h2>
 <pre><code>done by LTL
 </code></pre>
-<ol>
-<li><strong>Main Hardware Parts :</strong></li>
-<li>The core hardware of this desk satellite robot is based on the &quot;EspSparkBot&quot; model from Espressif's ESP32-AIBOT product line.</li>
-</ol>
+<h3 id="main-hardware-parts-%3A" tabindex="-1"><strong>Main Hardware Parts :</strong></h3>
+<p>The core hardware of this desk satellite robot is based on the &quot;EspSparkBot&quot; model from Espressif's ESP32-AIBOT product line.</p>
 <p>This compact but powerful robot platform brings together key parts such as motor drivers, audio output, a display screen, and a camera on the top.</p>
 <p>The ESP32 chip at its center provides enough computing power for real-time data processing and smooth communication with different devices.</p>
-<ol start="2">
-<li><strong>Basic Functions:</strong>
-Out of the box, the EspSparkBot comes with several useful features, including music playback, moving around, voice chat, weather updates, and camera activation through on-device AI models.</li>
-</ol>
-<p>In my custom version, I have installed DeepSeek V4 as the main AI model, which greatly improves the robot's reasoning and response quality.</p>
-<p>It is worth noting that while the robot can only reply in English at the moment, users can still give voice commands in Chinese, making interactions more natural and flexible.</p>
-<ol start="3">
-<li><strong>Extra Features</strong>
-To make the product more useful, I have added an MCP (Model Context Protocol) server to the robot.</li>
-</ol>
-<p>By building a simple MCP tool and using a bridge program to connect the MCP server to its endpoints, I have enabled the robot to search for videos on Bilibili.</p>
-<p>However, in the current version, this tool can only return search results. It cannot play videos on the robot's built-in screen yet.</p>
-<ol start="4">
-<li><strong>Future Plans</strong>
-Looking ahead, I have several improvements in mind.</li>
-</ol>
+<p>The critical hardware configeration of ESB:</p>
+<h5 id="the-esp-sparkbot-is-powered-by-the-esp32-s3-soc%2C-a-high-performance-aiot-chip-from-espressif.-its-key-technical-specifications-are%3A" tabindex="-1">The ESP-SparkBot is powered by the <strong>ESP32-S3</strong> SoC, a high-performance AIoT chip from Espressif. Its key technical specifications are:</h5>
+<h6 id="*-processor%3A-xtensa%C2%AE-32-bit-lx7-dual-core-cpu%2C-up-to-240-mhz-." tabindex="-1">* <strong>Processor:</strong> Xtensa® 32-bit LX7 dual-core CPU, up to  <strong>240 MHz</strong> .</h6>
+<ul>
+<li><strong>AI Acceleration:</strong> Vector instructions for on-device neural network computing (voice wake-up, keyword spotting).</li>
+<li><strong>Memory:</strong> 512 KB SRAM + external PSRAM (up to 8MB) for AI models and multimedia buffering.</li>
+<li><strong>Connectivity:</strong> <strong>Wi-Fi 6 (802.11ax)</strong> and <strong>Bluetooth 5.0 (LE)</strong> for cloud access and local control.</li>
+<li><strong>Key Peripherals:</strong> I2S (for audio), LCD &amp; Camera interfaces, and multiple GPIO/UART/I2C for sensors and motor control.</li>
+<li><strong>Security:</strong> Secure boot, flash/PSRAM encryption, and hardware crypto accelerators (AES/SHA/RSA).</li>
+<li>**Note:**ESP32-C2 acts as a dedicated motor controller</li>
+</ul>
+<p>Xiao Zhi in stayby status</p>
+<p><img src="image/展示网页/1786524561288.jpg" alt="1786524561288"></p>
+<h3 id="basic-functions%3A" tabindex="-1"><strong>Basic Functions:</strong></h3>
+<p>Out of the box, the ESP-SparkBot delivers a rich set of practical features, all powered by the on-board <strong>ESP32-S3</strong> chip and its tightly integrated hardware peripherals:</p>
+<ul>
+<li><strong>Voice Interaction:</strong> Leveraging the chip's vector instruction set for on-device AI acceleration, the robot supports <strong>wake-word detection</strong> and  <strong>local command recognition</strong> , enabling responsive voice chat without constant cloud dependency.</li>
+<li><strong>Multimedia Playback:</strong> Via the <strong>I2S</strong> interface and the dedicated  <strong>ES8311 audio codec</strong> , the robot can stream high-quality music and generate natural-sounding speech responses.</li>
+<li><strong>Motion Control:</strong> The base is driven by an auxiliary <strong>ESP32-C2</strong> chip, which handles motor commands independently through a UART connection. This modular design allows smooth and responsive movement (e.g., roving, obstacle avoidance) without interrupting the main processor's AI tasks.</li>
+<li><strong>Visual &amp; Sensor Input:</strong> The robot can activate its camera and process image data via the dedicated Camera interface, while the <strong>BMI270 gyroscope</strong> (connected via GPIO/I2C) provides real-time orientation sensing for balanced and stable motion.</li>
+<li><strong>Cloud Connectivity:</strong> With built-in  <strong>Wi-Fi 6</strong> , the robot can fetch real-time data such as <strong>weather updates</strong> or stream audio to cloud-based Large Language Models (LLMs) for complex question answering.</li>
+</ul>
+<h3 id="extra-features" tabindex="-1"><strong>Extra Features</strong></h3>
+<p>To make the product more useful, I have added an MCP (Model Context Protocol) server to the robot.</p>
+<p>MCP is the open standard that allows large language models to call external tools — think of it as a &quot;function-calling
+bridge&quot; between the AI and the real world. The robot already has access to a cloud-hosted LLM for conversation, but
+without MCP, the LLM can only answer from its training data. By building a simple MCP server in Python using the
+FastMCP framework, I gave the LLM access to three custom tools:</p>
+<ul>
+<li>
+<p><strong>search_bilibili</strong> — searches Bilibili's public API for videos by keyword and returns titles, uploader names, play
+counts, and URLs.</p>
+</li>
+<li>
+<p><strong>bilibili_ranking</strong>— fetches Bilibili's trending leaderboard so users can ask &quot;What's popular on Bilibili today?&quot;</p>
+</li>
+<li>
+<p><strong>get_bilibili_audio_url</strong> — given a Bilibili video link or BV number, queries the DASH playback API to extract the
+audio-only stream URL, along with duration and bitrate metadata.</p>
+<p>A bridge program (mcp_pipe.py) connects this local MCP server to the robot's cloud endpoint via WebSocket. When a user
+speaks a command like &quot;Search Bilibili for ESP32 tutorials,&quot; the LLM recognizes the intent, invokes the appropriate
+tool via JSON-RPC, receives structured data, and composes a natural-language spoken reply through the robot's TTS
+pipeline.</p>
+<p>However, the current version has a real limitation: the tools can only return search results as text. Although the
+audio extraction tool successfully retrieves a playable DASH audio URL from Bilibili's CDN, the robot's official
+firmware does not include the self.music.play_url device-side MCP tool required to stream that URL through the
+speaker. A third-party music-capable firmware exists, which adds self.music.play_song, but flashing it is a
+prerequisite that has not yet been completed. The same limitation applies to video: the robot's built-in screen cannot
+yet display streamed video content, as the firmware has no video decoding pipeline exposed through MCP.</p>
+<p>The next step is to flash the music firmware onto the ESP32 device, which would allow the full voice-to-playback chain
+to close — the LLM would call the cloud MCP to fetch an audio URL, then call the device MCP to stream it, and the
+robot would actually speak the sound of a Bilibili video. Extending this to on-screen video playback would require
+deeper firmware modifications, as it depends on hardware decoding support on the ESP32-S3 chip.</p>
+</li>
+</ul>
+<p>code of MCP server:</p>
+<p><img src="image/展示网页/1786505194809.png" alt="1786505194809"></p>
+<h3 id="future-plans" tabindex="-1"><strong>Future Plans</strong></h3>
+<p>Looking ahead, I have several improvements in mind.</p>
 <p>First, I plan to expand the MCP server so that it can play audio from Bilibili videos through the robot's speaker.</p>
 <p>Second, I want to change the current wake-up word, which is &quot;Ni Hao Xiao Zhi&quot; (Hello Xiao Zhi), to something more personal or better suited to the usage scenario.</p>
 <p>Third, I would like to add a fun &quot;cyber wooden fish&quot; feature. Users could tap on it to trigger a tapping sound, which could serve as a meditation aid or just a playful way to interact with the robot.</p>
 
     </div>
+
+    <button id="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+    <div id="lightbox"><img id="lightbox-img" src="" alt="" /></div>
+
+<script>
+/* ================================================================
+   Interactive Effects — Navigation, Scroll, Fade, Copy, Lightbox
+   ================================================================ */
+(function(){
+  'use strict';
+
+  /* ── 1. Auto-generate Navigation ── */
+  const nav = document.getElementById('top-nav');
+  const headings = document.querySelectorAll('.content-wrapper h1, .content-wrapper h2, .content-wrapper h3');
+  const navLinks = [];
+
+  headings.forEach((h, i) => {
+    if (!h.id) h.id = 'section-' + i;
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.replace(/[*#_]/g, '').trim().substring(0, 40);
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById(h.id).scrollIntoView({behavior:'smooth'});
+    });
+    nav.appendChild(a);
+    navLinks.push({ el:a, heading:h });
+  });
+
+  /* ── 2. Active Nav on Scroll ── */
+  const navObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const idx = navLinks.findIndex(n => n.heading === entry.target);
+      if (idx >= 0 && entry.isIntersecting) {
+        navLinks.forEach(n => n.el.classList.remove('active'));
+        navLinks[idx].el.classList.add('active');
+      }
+    });
+  }, { rootMargin:'-30% 0px -60% 0px' });
+  headings.forEach(h => navObserver.observe(h));
+
+  /* ── 3. Nav Shadow on Scroll ── */
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  /* ── 4. Fade-Up on Scroll ── */
+  const animTargets = document.querySelectorAll(
+    '.content-wrapper h1, .content-wrapper h2, .content-wrapper h3, ' +
+    '.content-wrapper h5, .content-wrapper h6, .content-wrapper p, ' +
+    '.content-wrapper pre, .content-wrapper ul, .content-wrapper ol, ' +
+    '.content-wrapper table, .content-wrapper blockquote, .content-wrapper img'
+  );
+  animTargets.forEach(el => {
+    el.classList.add('fade-up');
+    if (el.tagName === 'UL' || el.tagName === 'OL') {
+      el.querySelectorAll('li').forEach((li, i) => {
+        li.classList.add('fade-up');
+        li.style.transitionDelay = (i * 0.06) + 's';
+      });
+    }
+  });
+
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+  /* ── 5. Scroll Progress Bar ── */
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progressBar.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* ── 6. Back-to-Top ── */
+  const backBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    backBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+  backBtn.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ── 7. Code Copy Buttons ── */
+  document.querySelectorAll('pre').forEach(pre => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', async () => {
+      const code = pre.querySelector('code') || pre;
+      try {
+        await navigator.clipboard.writeText(code.textContent.trim());
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+      } catch {
+        btn.textContent = 'Failed';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      }
+    });
+    pre.appendChild(btn);
+  });
+
+  /* ── 8. Image Lightbox ── */
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.content-wrapper img').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || '';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lightbox.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+})();
+</script>
 </body>
 </html>
